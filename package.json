@@ -1,0 +1,29 @@
+{
+  "name": "bamazon",
+  "version": "1.0.0",
+  "description": "E-commerce application using MySQL and NodeJS",
+  "main": "bamazonCustomer.js",
+  "scripts": {
+    "test": "NA"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/narasimhan-ramesh5/mysql_homework_1.git"
+  },
+  "keywords": [
+    "MySQL",
+    "NodeJS"
+  ],
+  "author": "Narasimhan Ramesh",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/narasimhan-ramesh5/mysql_homework_1/issues"
+  },
+  "homepage": "https://github.com/narasimhan-ramesh5/mysql_homework_1#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "dotenv": "^6.1.0",
+    "inquirer": "^6.2.0",
+    "mysql": "^2.16.0"
+  }
+}
