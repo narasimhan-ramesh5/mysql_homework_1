@@ -91,7 +91,7 @@ function get_initial_data_func ( resolve , reject ) {
 function process_order(order_quantity, order_item){
 	/* Query to update database */
 	connection.query({
-		sql:'SELECT stock_quantity, price'
+		sql:'SELECT stock_quantity, price, department_id'
 			 + ' FROM products'
 			 + ' WHERE product_id=?',
 		values: [order_item],
@@ -109,12 +109,14 @@ function process_order(order_quantity, order_item){
 
 		let available = results[0].stock_quantity;
 		let price = results[0].price;
+		let department = results[0].department_id;
 
 		if(order_quantity > available){
 			if(available > 0)
 				console.log("sorry, we only have " + available + " in stock");
 			else
 				console.log("sorry, we are out of stock");
+			return connection.end();
 		} else {
 			/* There is sufficient inventory for the order to go through.
 			   Update the database and display the cost to the user. */
@@ -134,11 +136,32 @@ function process_order(order_quantity, order_item){
 
 				console.log("Total Cost :  \$" + transaction_price);
 
+				/* Update department sales to reflect this sale */
+				update_department_sales(department, transaction_price);
 			});
 		}
-		connection.end();
 	});
+}
 
+/**
+ * @function update_department_sales
+ * @description Updates the department sales whenever a product from that department is purchased.
+ * @param {*} dept_id 
+ * @param {*} sale_price 
+ */
+function update_department_sales(dept_id, sale_price){
+	connection.query(
+		{
+			sql:'UPDATE departments '
+				+ 'SET product_sales=product_sales+? '
+				+ 'WHERE department_id=?',
+			values:[sale_price , dept_id],
+			timeout:30000
+		}, function(err){
+			if(err) throw err;
+			connection.end();
+		}
+	)
 }
 
 /**

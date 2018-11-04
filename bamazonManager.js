@@ -195,7 +195,7 @@ function add_new_product(){
 		let department = parseInt(response.new_product_department);
 		let price = parseFloat(response.new_product_price);
 
-		if(!name || count < 0 || price < 0.0)
+		if(!name || count <= 0 || price <= 0.0)
 		{
 			console.log("Oops, please try again");
 			manager_display_menu();
